@@ -1,3 +1,7 @@
+/*
+ * Copyright 2023 steadybit GmbH. All rights reserved.
+ */
+
 package extlambda
 
 import (
@@ -8,6 +12,7 @@ import (
 	"github.com/aws/aws-sdk-go-v2/service/lambda/types"
 	"github.com/steadybit/discovery-kit/go/discovery_kit_api"
 	extension_kit "github.com/steadybit/extension-kit"
+	"github.com/steadybit/extension-kit/extbuild"
 	"github.com/steadybit/extension-kit/exthttp"
 	"github.com/steadybit/extension-kit/extutil"
 	"net/http"
@@ -60,18 +65,14 @@ func getDiscoveryDescription() discovery_kit_api.DiscoveryDescription {
 
 func getTargetDescription() discovery_kit_api.TargetDescription {
 	return discovery_kit_api.TargetDescription{
-		Id:   targetID,
-		Icon: extutil.Ptr(targetIcon),
+		Id:      targetID,
+		Version: extbuild.GetSemverVersionStringOrUnknown(),
+		Icon:    extutil.Ptr(targetIcon),
 
 		Label: discovery_kit_api.PluralLabel{One: "AWS Lambda", Other: "AWS Lambdas"},
 
 		// Category for the targets to appear in
 		Category: extutil.Ptr("cloud"),
-
-		// Version of the target type; this used for caching
-		// When doing changes the version should be bumped.
-		// When developing the SNAPSHOT suffix will prevent
-		Version: "1.0.0-SNAPSHOT",
 
 		// Specify attributes shown in table columns and to be used for sorting
 		Table: discovery_kit_api.Table{
